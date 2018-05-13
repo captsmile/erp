@@ -1,21 +1,28 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+
+    state ={
+        message: ""
+    }
+
+    render() {
+
+        return (
+            <div className="App">
+                <div>DASHBOARD</div>
+                <input type="text"/>
+                <button onClick={this.sendMsg}>submit</button>
+                {this.state.message}
+            </div>
+        );
+    }
+
+    sendMsg = (e) => {
+        e.preventDefault();
+        console.log(11);
+        this.setState({message: this.state.message + "1"})
+    }
 }
 
 export default App;
