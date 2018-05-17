@@ -28,21 +28,16 @@ class Login extends Component {
                         <Form.Field>
                             <Checkbox label='I agree to the Terms and Conditions'/>
                         </Form.Field>
-                        <Button onClick={this.loginButton} type='login'>Login</Button>
+                        <Button onClick={() => { this.props.updateData(!this.props.isAuthenticated)}} type='login'>Login</Button>
                         <Button onClick={this.logoutButton()} type='logout'>Logout</Button>
-                        {/*{console.log(this.state.isAuthenticated)}*/}
                     </Form>
                 </Grid.Column>
             </Grid>
         );
     }
 
-    loginButton() {
-        this.props.onAuth()
-    }
 
     logoutButton() {
-
     }
 }
 

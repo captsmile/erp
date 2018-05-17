@@ -1,66 +1,60 @@
 import React, {Component} from 'react';
-import {Button, Grid, Input} from "semantic-ui-react";
+import {Button, Comment, Grid, Icon, Input} from "semantic-ui-react";
 
 class Dashboard extends Component {
 
     state = {
-        message: "",
+        message: [],
         value: ""
     }
 
     handleInputChange(e) {
-        console.log(e.target.value)
         this.setState({value: e.target.value})
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state.value)
-        this.setState({message: [...this.state.message, this.state.value]})
-    }
-
-    handleKeyUp(e) {
-        //if (e.keyCode == 13) this.handleSubmit
+        this.setState({message: [...this.state.message, this.state.value], value: ""})
     }
 
     render() {
-
         return (
             <Grid centered columns={2}>
                 <Grid.Column>
-                    <Input onChange={this.handleInputChange.bind(this)} style={{flex:1}} type='text' placeholder='Search...' action>
+                    <Input fluid onChange={this.handleInputChange.bind(this)} type='text' placeholder='Input...'
+                           value={this.state.value} action>
                         <input/>
-                        <Button onClick={this.handleSubmit} type='submit'>Search</Button>
+                        <Button onClick={this.handleSubmit} type='submit'>Submit</Button>
                     </Input>
-                    {this.state.message}
+                    <Comment.Group>
+
+                        {this.state.message.map((item) =>
+                            <Comment key={item}>
+                                <Comment.Avatar as='a'
+                                                src='https://react.semantic-ui.com/assets/images/avatar/small/joe.jpg'/>
+                                <Comment.Content>
+                                    <Comment.Author>Tom Lukic</Comment.Author>
+                                    <Comment.Text>
+                                        {item}
+                                    </Comment.Text>
+                                    <Comment.Actions>
+                                        <Comment.Action>Reply</Comment.Action>
+                                        <Comment.Action>Save</Comment.Action>
+                                        <Comment.Action>Hide</Comment.Action>
+                                        <Comment.Action>
+                                            <Icon name='expand'/>
+                                            Full-screen
+                                        </Comment.Action>
+                                    </Comment.Actions>
+                                </Comment.Content>
+                            </Comment>
+                        )}
+                    </Comment.Group>
+
                 </Grid.Column>
             </Grid>
-            /*<form onKeyUp={this.handleKeyUp}>
-                <div className="ui two column centered grid">
-                    <div className="column">
-                        <div>DASHBOARD</div>
-                        <div className="ui action input">
-                            <input onChange={this.handleInputChange.bind(this)} type="text" placeholder="Input..."/>
-                            <button onClick={this.handleSubmit} className="ui button">submit</button>
-                        </div>
-                        {this.state.message}</div>
-                </div>
-            </form>
-*/
         );
     }
 }
 
 export default Dashboard;
-
-/*
-
-this.state.arrayvar.push(newelement);
-this.setState({arrayvar:this.state.arrayvar});
-
-this.setState(prevState => ({
-    arrayvar: [...prevState.arrayvar, newelement]
-}))
-
-
-this.setState({arrayvar:[...this.state.arrayvar, newelement]});*/

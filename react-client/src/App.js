@@ -19,20 +19,21 @@ class App extends Component {
         }
     }
 
-    onAuth() {
-        //this.setState({isAuthenticated: !this.state.isAuthenticated})
-        console.log(this.state.isAuthenticated)
+    updateData = (value) => {
+        this.setState({ isAuthenticated: value })
+        this.props.history.push("/");
+        //console.log(this.state.isAuthenticated)
     }
 
     render() {
         return (
             <div style={{display: "flex", minHeight: "100vh", flexDirection: "column"}}>
-                <Header/>
+                <Header isAuthenticated={this.state.isAuthenticated} updateData={this.updateData}/>
                 <Route exact path="/" component={Dashboard}/>
-                <Route exact path="/auth" render={(props) => <Login onClick={this.onAuth()} {...props}/>}/>
+                <Route exact path="/auth" render={(props) => <Login updateData={this.updateData} {...props}/>}/>
                 <Route exact path="/chat" component={Chat}/>
                 <PrivateRoute authenticated={this.state.isAuthenticated} path="/home" component={Home}></PrivateRoute>
-                {console.log(this.state.isAuthenticated)}
+                {/*{console.log(this.state.isAuthenticated)}*/}
                 {/*<Footer/>*/}
             </div>
         );
@@ -40,4 +41,4 @@ class App extends Component {
 
 }
 
-export default App;
+export default withRouter(App);
