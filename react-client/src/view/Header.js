@@ -1,27 +1,24 @@
 import React, {Component} from "react";
 import {Link} from "react-router-dom";
+import {Menu} from "semantic-ui-react";
 
 class Header extends Component {
 
+    state = {}
+
+    handleItemClick = (e, {name}) => this.setState({activeItem: name})
+
     render() {
+        const {activeItem} = this.state
+
         return (
-            <nav className="navbar navbar-expand-lg navbar-light">
-                <Link to="/">DASHBOARD</Link>
-                <button className="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div className="navbar-nav">
-                            <a className="nav-item nav-link active" href="#"> <Link to="/home">HOME</Link></a>
-                            <a className="nav-item nav-link disabled" href="#">Disabled</a>
-                        </div>
-                        <ul  className="navbar-nav navbar-right">
-                            <a className="nav-item nav-link" href="#"> <Link to="/auth">LOGIN</Link></a>
-                        </ul>
-                </div>
-            </nav>
+            <Menu>
+                <Menu.Item header>Vitalii</Menu.Item>
+                <Menu.Item as={Link} to='/' name='dashboard' active={activeItem === 'dashboard'} onClick={this.handleItemClick}/>
+                <Menu.Item as={Link} to='/home' name='home' active={activeItem === 'home'} onClick={this.handleItemClick}/>
+                <Menu.Item as={Link} to='/chat' name='chat' active={activeItem === 'chat'} onClick={this.handleItemClick}/>
+                <Menu.Item as={Link} to='/auth' position='right' name='auth' active={activeItem === 'auth'} onClick={this.handleItemClick}/>
+            </Menu>
 
         );
     }

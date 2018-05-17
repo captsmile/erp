@@ -1,31 +1,46 @@
 package com.vitalii.erp.controller;
 
 import com.vitalii.erp.service.UserService;
+import javafx.scene.paint.Color;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Random;
+
+import static com.vitalii.erp.util.GetClassName.getClassName;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("http://localhost:3000")
 public class DataController {
 
     final HttpHeaders httpHeaders = new HttpHeaders();
 
+    private Logger log = LoggerFactory.getLogger(getClassName());
+
     @Autowired
     UserService userService;
+
 
     public DataController() {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
     }
+
+
 
     @GetMapping("/secure/testStr")
     @ResponseBody
