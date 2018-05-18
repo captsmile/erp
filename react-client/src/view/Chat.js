@@ -9,9 +9,9 @@ class Chat extends Component {
         value: ""
     }
 
-    sendMessage = (msg) => {
-        console.log(112)
-        this.clientRef.sendMessage("/all", "ff");
+    sendMessage() {
+        this.clientRef.sendMessage("/all", this.state.value);
+        this.setState({value: ""})
     }
 
 
@@ -19,28 +19,29 @@ class Chat extends Component {
         this.setState({value: e.target.value})
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.setState({message: [...this.state.message, this.state.value], value: ""})
+    handleKeyPress = (event) => {
+        if(event.key == 'Enter'){
+            this.sendMessage()
+        }
     }
 
-
     render() {
+        const messages = this.state.message
+
         return (
             <div>
                 <Grid centered columns={2}>
                     <Grid.Column>
-                        <Input fluid onChange={this.handleInputChange.bind(this)} type='text' placeholder='Input...'
+                        <Input fluid onKeyPress={this.handleKeyPress} onChange={this.handleInputChange.bind(this)} type='text' placeholder='Input...'
                                value={this.state.value} action>
                             <input/>
                             <Button onClick={() => {
-                                console.log(11),
-                                this.sendMessage, this.handleSubmit
+                                this.sendMessage()
                             }} type='submit'>Submit</Button>
                         </Input>
                         <Comment.Group>
 
-                            {this.state.message.map((item) =>
+                            {messages.map((item) =>
                                 <Comment key={item}>
                                     <Comment.Avatar as='a'
                                                     src='https://react.semantic-ui.com/assets/images/avatar/small/joe.jpg'/>
@@ -69,7 +70,7 @@ class Chat extends Component {
                 <SockJsClient url='http://192.168.1.103:8080/handler' topics={["/topic/all"]}
                               onMessage={(msg) => {
                                   this.setState({
-                                      message: [...this.state.message, msg.colorString]
+                                      message: [msg.colorString, ...this.state.message]
                                   });
                               }}
                               ref={(client) => {

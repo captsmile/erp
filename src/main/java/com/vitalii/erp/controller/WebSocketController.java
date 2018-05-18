@@ -1,6 +1,7 @@
 package com.vitalii.erp.controller;
 
 import javafx.scene.paint.Color;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +11,14 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Random;
 
 import static com.vitalii.erp.util.GetClassName.getClassName;
 
 @Controller
-@CrossOrigin("*")
+//@CrossOrigin("*")
 public class WebSocketController {
 
     private Logger log = LoggerFactory.getLogger(getClassName());
@@ -24,14 +26,20 @@ public class WebSocketController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    @MessageMapping("/all")
-    @SendTo("/topic/all")
-    public ColorMessage greeting(String colorMessage) {
-        log.info("message.getColorString() = " + colorMessage);
-        return new ColorMessage("REQUEST");
+    @RequestMapping("/*")
+    public String index(){
+        log.info("index");
+        return "index";
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @MessageMapping("/all")
+    @SendTo("/topic/all")
+    public ColorMessage greeting(@NonNull String colorMessage) {
+        log.info("message.getColorString() = " + colorMessage);
+        return new ColorMessage(colorMessage);
+    }
+
+    //@Scheduled(fixedDelay = 10000)
     public void bgColor() {
         Random r = new Random();
         Color rgb = Color.rgb(r.nextInt(255), r.nextInt(255), r.nextInt(255), r.nextDouble());
